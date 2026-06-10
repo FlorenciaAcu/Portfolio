@@ -1,48 +1,76 @@
+import { ArrowLeft } from "lucide-react";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
 import { ProjectGrid } from "./ProjectGrid";
 import { Button } from "./ui/button";
-
-// ProjectGrid component now handles all project display logic
+import { projectGroups, projects } from "../data/projects";
+import { SectionHeader } from "./design-system";
 
 export function ProyectosPage() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-[var(--color-bg-soft)]">
       <Header />
-      
-      {/* Main Content */}
+
       <main className="pt-20">
-        <div className="max-w-7xl mx-auto px-6 py-40">
-          {/* Page Header */}
-          <div className="text-center mb-16">
-            <h1 className="text-4xl font-bold text-gray-900 mb-4">
-              Todos mis proyectos
-            </h1>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-6">
-              Un recorrido por mi experiencia diseñando productos digitales en distintas industrias y contextos.
-            </p>
-            <div className="w-20 h-1 bg-black rounded-full mx-auto"></div>
+        <div className="mx-auto max-w-7xl px-6 py-24 lg:py-32">
+          <SectionHeader
+            eyebrow="Proyectos"
+            title="Proyectos"
+            description="Trabajos seleccionados en producto digital, MVPs, SaaS, plataformas web y experiencias para distintos clientes, equipos e industrias."
+            className="max-w-5xl"
+          />
+
+          <div className="space-y-20">
+            {projectGroups.map((group, index) => {
+              const groupProjects = group.ids
+                .map((id) => projects.find((project) => project.id === id))
+                .filter(Boolean);
+
+              if (!groupProjects.length) return null;
+
+              return (
+                <section key={group.label}>
+                  <div className="mb-8 grid gap-4 border-t border-[var(--color-border-soft)] pt-6 md:grid-cols-[120px_1fr]">
+                    <p className="text-sm font-semibold text-[var(--color-brand-primary)]">
+                      {String(index + 1).padStart(2, "0")}
+                    </p>
+                    <div>
+                      <p className="mb-2 text-sm font-semibold uppercase tracking-[0.18em] text-[var(--color-brand-primary)]">
+                        {group.label}
+                      </p>
+                      <h2 className="text-3xl font-bold text-[var(--color-text-primary)]">
+                        {group.label === "SaaS y plataformas"
+                          ? "Productos que necesitan claridad operativa"
+                          : group.label === "MVPs y productos digitales"
+                            ? "Primeras versiones y experiencias para validar"
+                            : group.label === "Webs profesionales"
+                              ? "Comunicación, confianza y conversión"
+                              : "Procesos internos y flujos administrativos"}
+                      </h2>
+                    </div>
+                  </div>
+                  <ProjectGrid items={groupProjects as typeof projects} />
+                </section>
+              );
+            })}
           </div>
 
-          {/* Projects Grid - 3 columns */}
-          <ProjectGrid />
-
-          {/* Back to Home */}
-          <div className="text-center mt-16">
-            <Button 
+          <div className="mt-14 text-center">
+            <Button
               onClick={() => {
-                window.location.hash = '#/';
+                window.location.hash = "#/";
                 setTimeout(() => window.scrollTo(0, 0), 100);
               }}
-              variant="outline"
-              className="border-gray-300 hover:bg-gray-50 px-8 py-3 text-lg"
+              variant="secondary"
+              size="lg"
             >
-              ← Volver al inicio
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Volver al inicio
             </Button>
           </div>
         </div>
       </main>
-      
+
       <Footer />
     </div>
   );

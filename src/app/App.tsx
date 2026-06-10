@@ -1,10 +1,14 @@
 import { Header } from "./components/Header";
 import { HeroSection } from "./components/HeroSection";
-import { AboutSection } from "./components/AboutSection";
+import { ProjectEntryPointsSection } from "./components/ProjectEntryPointsSection";
+import { TrustSignalsSection } from "./components/TrustSignalsSection";
+import { ValueSection } from "./components/ValueSection";
 import { FeaturedProjects } from "./components/FeaturedProjects";
+import { WritingSection } from "./components/WritingSection";
 import { ContactSection } from "./components/ContactSection";
 import { Footer } from "./components/Footer";
 import { ProyectosPage } from "./components/ProyectosPage";
+import { ProjectDetailPage } from "./components/ProjectDetailPage";
 import { useState, useEffect } from "react";
 
 export default function App() {
@@ -12,6 +16,9 @@ export default function App() {
     // Initialize with hash-based routing for production compatibility
     if (typeof window !== 'undefined') {
       const hash = window.location.hash;
+      if (hash.startsWith('#/proyectos/')) {
+        return hash.replace('#', '');
+      }
       if (hash === '#/proyectos') {
         return '/proyectos';
       }
@@ -27,7 +34,9 @@ export default function App() {
     // Handle hash-based routing (works in all environments)
     const handleHashChange = () => {
       const hash = window.location.hash;
-      if (hash === '#/proyectos') {
+      if (hash.startsWith('#/proyectos/')) {
+        setCurrentPath(hash.replace('#', ''));
+      } else if (hash === '#/proyectos') {
         setCurrentPath('/proyectos');
       } else if (hash === '#/' || hash === '') {
         setCurrentPath('/');
@@ -37,7 +46,9 @@ export default function App() {
     // Handle back/forward browser navigation
     const handlePopState = () => {
       const hash = window.location.hash;
-      if (hash === '#/proyectos') {
+      if (hash.startsWith('#/proyectos/')) {
+        setCurrentPath(hash.replace('#', ''));
+      } else if (hash === '#/proyectos') {
         setCurrentPath('/proyectos');
       } else {
         setCurrentPath('/');
@@ -74,23 +85,22 @@ export default function App() {
     return <ProyectosPage />;
   }
 
+  if (currentPath.startsWith('/proyectos/')) {
+    return <ProjectDetailPage projectId={currentPath.replace('/proyectos/', '')} />;
+  }
+
   // Homepage
   return (
     <div className="min-h-screen bg-white">
       <Header />
       <main>
-        <section id="inicio">
-          <HeroSection />
-        </section>
-        <section id="sobre-mi">
-          <AboutSection />
-        </section>
-        <section id="proyectos">
-          <FeaturedProjects />
-        </section>
-        <section id="contacto">
-          <ContactSection />
-        </section>
+        <HeroSection />
+        <ProjectEntryPointsSection />
+        <TrustSignalsSection />
+        <ValueSection />
+        <FeaturedProjects />
+        <WritingSection />
+        <ContactSection />
       </main>
       <Footer />
       

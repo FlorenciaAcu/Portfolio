@@ -1,230 +1,126 @@
-import { Button } from "./ui/button";
 import { useState } from "react";
+import { Menu, X } from "lucide-react";
+import { Button } from "./ui/button";
+
+const navItems = [
+  { label: "Inicio", target: "inicio" },
+  { label: "Sobre mí", target: "sobre-mi" },
+  { label: "Proyectos", route: "/proyectos" },
+  { label: "Artículos", target: "articulos" },
+];
+
+function isProjectsPage() {
+  return window.location.hash.startsWith("#/proyectos") || window.location.pathname.startsWith("/proyectos");
+}
+
+function goToSection(target: string) {
+  if (isProjectsPage()) {
+    window.location.hash = "#/";
+    setTimeout(() => document.getElementById(target)?.scrollIntoView({ behavior: "smooth" }), 120);
+    return;
+  }
+
+  if (target === "inicio") {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    return;
+  }
+
+  document.getElementById(target)?.scrollIntoView({ behavior: "smooth" });
+}
+
+function goToProjects() {
+  window.location.hash = "#/proyectos";
+  setTimeout(() => window.scrollTo(0, 0), 100);
+}
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const isProjectsPage = window.location.hash === '#/proyectos' || window.location.pathname === '/proyectos';
 
-  const handleHomeClick = () => {
-    window.location.hash = '#/';
-  };
-
-  const handleInicioClick = () => {
-    if (isProjectsPage) {
-      window.location.hash = '#/';
-    } else {
-      const element = document.getElementById('inicio');
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      } else {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
+  const handleNavClick = (item: (typeof navItems)[number]) => {
+    if (item.route === "/proyectos") {
+      goToProjects();
+    } else if (item.target) {
+      goToSection(item.target);
     }
-  };
-
-  const handleSobreMiClick = () => {
-    if (isProjectsPage) {
-      window.location.hash = '#/';
-      // Wait a bit then scroll to section
-      setTimeout(() => {
-        const element = document.getElementById('sobre-mi');
-        if (element) {
-          element.scrollIntoView({ behavior: 'smooth' });
-        }
-      }, 100);
-    } else {
-      const element = document.getElementById('sobre-mi');
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
-  };
-
-  const handleProyectosClick = () => {
-    window.location.hash = '#/proyectos';
-    setTimeout(() => window.scrollTo(0, 0), 100);
-  };
-
-  const handleContactoClick = () => {
-    if (isProjectsPage) {
-      window.location.hash = '#/';
-      // Wait a bit then scroll to section
-      setTimeout(() => {
-        const element = document.getElementById('contacto');
-        if (element) {
-          element.scrollIntoView({ behavior: 'smooth' });
-        }
-      }, 100);
-    } else {
-      const element = document.getElementById('contacto');
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
-  };
-
-  // Mobile menu handlers
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
-
-  const closeMobileMenu = () => {
     setIsMobileMenuOpen(false);
   };
 
-  const handleMobileInicioClick = () => {
-    handleInicioClick();
-    closeMobileMenu();
-  };
-
-  const handleMobileSobreMiClick = () => {
-    handleSobreMiClick();
-    closeMobileMenu();
-  };
-
-  const handleMobileProyectosClick = () => {
-    handleProyectosClick();
-    closeMobileMenu();
-  };
-
-  const handleMobileContactoClick = () => {
-    handleContactoClick();
-    closeMobileMenu();
-  };
-
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
-      <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-        {/* Logo/Name - clickable to go home */}
-        <button 
-          onClick={handleHomeClick}
-          className="font-semibold text-lg hover:text-gray-700 transition-colors"
+    <header className="fixed left-0 right-0 top-0 z-50 border-b border-[var(--color-border-soft)] bg-[var(--color-bg-soft)]/90 backdrop-blur-xl">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-6">
+        <button
+          onClick={() => {
+            window.location.hash = "#/";
+            setTimeout(() => window.scrollTo({ top: 0, behavior: "smooth" }), 100);
+          }}
+          className="focus-ring flex items-center gap-3 rounded-[var(--radius-button)] text-left"
+          aria-label="Ir al inicio"
         >
-          Florencia Acuña
+          <span className="grid h-10 w-10 place-items-center rounded-full bg-[var(--color-brand-primary)] text-sm font-bold text-white">
+            FA
+          </span>
+          <span className="hidden leading-tight sm:block">
+            <span className="block font-bold text-[var(--color-text-primary)]">Florencia Acuña</span>
+            <span className="block text-sm text-[var(--color-text-muted)]">florenciaux</span>
+          </span>
         </button>
-        
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-8">
-          <button 
-            onClick={handleInicioClick}
-            className={`transition-colors ${
-              !isProjectsPage 
-                ? 'text-gray-900 font-medium' 
-                : 'text-gray-600 hover:text-gray-900'
-            }`}
-          >
-            Inicio
-          </button>
-          
-          <button 
-            onClick={handleSobreMiClick}
-            className="text-gray-600 hover:text-gray-900 transition-colors"
-          >
-            Sobre mí
-          </button>
-          
-          <button 
-            onClick={handleProyectosClick}
-            className={`transition-colors ${
-              isProjectsPage 
-                ? 'text-gray-900 font-medium' 
-                : 'text-gray-600 hover:text-gray-900'
-            }`}
-          >
-            Proyectos
-          </button>
-          
-          <Button 
-            onClick={handleContactoClick}
-            className="bg-black text-white hover:bg-gray-800"
+
+        <nav className="hidden items-center gap-7 md:flex" aria-label="Navegación principal">
+          {navItems.map((item) => (
+            <button
+              key={item.label}
+              onClick={() => handleNavClick(item)}
+              className="focus-ring rounded-[var(--radius-button)] px-1 text-sm font-medium text-[var(--color-text-secondary)] transition hover:text-[var(--color-brand-primary)]"
+            >
+              {item.label}
+            </button>
+          ))}
+        </nav>
+
+        <div className="hidden md:block">
+          <Button
+            onClick={() => goToSection("contacto")}
+            variant="brand"
           >
             Contacto
           </Button>
-        </nav>
+        </div>
 
-        {/* Mobile menu button */}
-        <button 
-          onClick={toggleMobileMenu}
-          className="md:hidden z-50 relative"
-          aria-label="Toggle mobile menu"
+        <button
+          onClick={() => setIsMobileMenuOpen((value) => !value)}
+          className="focus-ring grid h-10 w-10 place-items-center rounded-full border border-[var(--color-border-soft)] text-[var(--color-text-primary)] md:hidden"
+          aria-label={isMobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
+          aria-expanded={isMobileMenuOpen}
         >
-          <svg 
-            className={`w-6 h-6 transition-transform duration-300 ${isMobileMenuOpen ? 'rotate-90' : ''}`} 
-            fill="none" 
-            stroke="currentColor" 
-            viewBox="0 0 24 24"
-          >
-            {isMobileMenuOpen ? (
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            ) : (
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-            )}
-          </svg>
+          {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
       </div>
 
-      {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
-        <div 
-          className="fixed inset-0 z-40 bg-black/50 md:hidden"
-          onClick={closeMobileMenu}
-        />
-      )}
-
-      {/* Mobile Menu */}
-      <div className={`
-        fixed top-0 left-0 w-full h-screen z-40 bg-white transform transition-transform duration-300 ease-in-out md:hidden
-        ${isMobileMenuOpen ? 'translate-y-0' : '-translate-y-full'}
-      `}>
-        <div className="pt-20 px-6">
-          <nav className="flex flex-col space-y-8">
-            <button 
-              onClick={() => {
-                if (isProjectsPage) {
-                  window.location.hash = '#/';
-                } else {
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }
-                closeMobileMenu();
-              }}
-              className={`text-left py-4 border-b border-gray-100 transition-colors text-lg ${
-                !isProjectsPage 
-                  ? 'text-gray-900 font-semibold' 
-                  : 'text-gray-600'
-              }`}
-            >
-              Inicio
-            </button>
-            
-            <button 
-              onClick={handleMobileSobreMiClick}
-              className="text-left py-4 border-b border-gray-100 text-gray-600 transition-colors text-lg hover:text-gray-900"
-            >
-              Sobre mí
-            </button>
-            
-            <button 
-              onClick={handleMobileProyectosClick}
-              className={`text-left py-4 border-b border-gray-100 transition-colors text-lg ${
-                isProjectsPage 
-                  ? 'text-gray-900 font-semibold' 
-                  : 'text-gray-600'
-              }`}
-            >
-              Proyectos
-            </button>
-            
-            <div className="pt-4">
-              <Button 
-                onClick={handleMobileContactoClick}
-                className="w-full bg-black text-white hover:bg-gray-800 py-4 text-lg"
+        <div className="border-t border-[var(--color-border-soft)] bg-[var(--color-bg-soft)] px-5 py-5 md:hidden">
+          <nav className="flex flex-col gap-2" aria-label="Navegación móvil">
+            {navItems.map((item) => (
+              <button
+                key={item.label}
+                onClick={() => handleNavClick(item)}
+                className="focus-ring rounded-[var(--radius-card)] px-3 py-3 text-left text-lg font-medium text-[var(--color-text-primary)] hover:bg-white"
               >
-                Contacto
-              </Button>
-            </div>
+                {item.label}
+              </button>
+            ))}
+            <Button
+              onClick={() => {
+                goToSection("contacto");
+                setIsMobileMenuOpen(false);
+              }}
+              variant="brand"
+              className="mt-3"
+            >
+              Contacto
+            </Button>
           </nav>
         </div>
-      </div>
+      )}
     </header>
   );
 }

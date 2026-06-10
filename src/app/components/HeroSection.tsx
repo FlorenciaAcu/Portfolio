@@ -1,81 +1,105 @@
-import imgMyProject from "figma:asset/823c5b31891be9a71126acd119cd38e45ab6f017.png";
-import imgImageWithFallback from "figma:asset/8742f9788708f83d6bce8496683dacf97e5abf30.png";
-import img1005Cazadoresdeorog102 from "figma:asset/e413d17e385338800e6adbb995a23b583d9d76a9.png";
-
-function Heading1() {
-  return (
-    <div className="flex flex-col items-start w-full" data-name="Heading 1">
-      <h1 className="font-['DM_Sans:Bold',_sans-serif] font-bold leading-tight text-[#101828] text-4xl lg:text-5xl xl:text-6xl w-full" style={{ fontVariationSettings: "'opsz' 14" }}>
-        Hola, soy<br />Florencia Acuña
-      </h1>
-    </div>
-  );
-}
-
-function Paragraph() {
-  return (
-    <div className="flex flex-col gap-4 items-start w-full" data-name="Container">
-      <p className="font-['DM_Sans:9pt_Regular',_sans-serif] font-normal leading-relaxed text-[#4a5565] text-xl lg:text-2xl" style={{ fontVariationSettings: "'opsz' 9" }}>
-        UX/UI Designer
-      </p>
-      <p className="font-['DM_Sans:9pt_Regular',_sans-serif] font-normal leading-relaxed text-[#4a5565] text-lg" style={{ fontVariationSettings: "'opsz' 9" }}>
-        Diseñadora de productos digitales, apasionada por la innovación, la educación y el emprendedurismo.
-      </p>
-    </div>
-  );
-}
-
-function ImageWithFallback() {
-  return (
-    <div className="[grid-area:1_/_1] h-[274.701px] ml-0 mt-0 relative rounded-[16px] w-[265.347px]" data-name="ImageWithFallback">
-      <img alt="" className="absolute inset-0 max-w-none object-50%-50% object-cover pointer-events-none rounded-[16px] size-full" src={imgImageWithFallback} />
-    </div>
-  );
-}
-
-function Container3() {
-  return <div className="[grid-area:1_/_1] bg-[#467eff] h-[59.181px] ml-[421px] mt-[28.604px] opacity-20 rounded-[1.06861e+07px] w-[60px]" data-name="Container" />;
-}
-
-function Container4() {
-  return <div className="[grid-area:1_/_1] bg-[#5433f6] h-[49.318px] ml-[26px] mt-[315.61px] opacity-20 rounded-[1.06861e+07px] w-[50px]" data-name="Container" />;
-}
-
-function Container2() {
-  return (
-    <div className="flex flex-col gap-8 items-start w-full" data-name="Container">
-      <div className="relative rounded-full w-20 h-20 lg:w-24 lg:h-24" data-name="My project">
-        <img alt="Florencia Acuña" className="absolute inset-0 object-cover rounded-full w-full h-full" src={imgMyProject} />
-      </div>
-      <div className="flex flex-col gap-6 w-full">
-        <Heading1 />
-        <Paragraph />
-      </div>
-    </div>
-  );
-}
-
-function Group1() {
-  return (
-    <div className="grid-cols-[max-content] grid-rows-[max-content] h-full inline-grid leading-[0] place-items-start relative shrink-0">
-      <ImageWithFallback />
-      <div className="[grid-area:1_/_1] h-[281.001px] ml-[287px] mt-[115px] relative rounded-[16px] w-[265.347px]" data-name="1005cazadoresdeorog1-02">
-        <img alt="" className="absolute inset-0 max-w-none object-50%-50% object-cover pointer-events-none rounded-[16px] size-full" src={img1005Cazadoresdeorog102} />
-      </div>
-      <Container3 />
-      <Container4 />
-    </div>
-  );
-}
+import { ArrowRight, FileText } from "lucide-react";
+import { cvUrl, heroIndicators, heroProcess } from "../data/home";
+import { Pill } from "./design-system";
+import { Button } from "./ui/button";
 
 export function HeroSection() {
   return (
-    <section id="inicio" className="min-h-screen flex items-center justify-center bg-white py-40">
-      <div className="max-w-7xl mx-auto px-6 w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center min-h-[80vh]" data-name="HeroSection">
-          <Container2 />
-          <div className="flex justify-center items-center">
-            <Group1 />
+    <section id="inicio" className="section-reveal bg-[var(--color-bg-soft)] pt-32 lg:pt-36">
+      <div className="mx-auto max-w-7xl px-6">
+        <div className="grid min-h-[calc(100vh-5rem)] gap-12 pb-12 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
+          <div className="max-w-4xl">
+            <Pill variant="success" dot className="mb-8 px-4 py-2 text-sm">
+              Disponible para proyectos
+            </Pill>
+
+            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-[var(--color-brand-primary)]">
+              Florencia Acuña - Product Designer
+            </p>
+            <h1 className="text-balance max-w-4xl text-4xl font-bold leading-[1.08] text-[var(--color-text-primary)] md:text-6xl lg:text-7xl">
+              Soy Florencia Acuña, Product Designer.
+            </h1>
+            <p className="mt-8 max-w-3xl text-xl leading-8 text-[var(--color-text-secondary)] md:text-2xl md:leading-9">
+              Ayudo a convertir ideas, necesidades y procesos en productos digitales simples de usar,
+              con foco en usuarios, negocio y equipos.
+            </p>
+            <p className="mt-4 max-w-2xl text-base leading-7 text-[var(--color-text-muted)]">
+              Trabajo en la intersección entre experiencia, interfaz y producto para ordenar problemas,
+              diseñar flujos claros y acompañar soluciones hasta desarrollo.
+            </p>
+
+            <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+              <Button
+                onClick={() => {
+                  window.location.hash = "#/proyectos";
+                  setTimeout(() => window.scrollTo(0, 0), 100);
+                }}
+                variant="primary"
+                size="lg"
+              >
+                Ver proyectos
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+              <Button
+                onClick={() =>
+                  window.open(
+                    cvUrl,
+                    "_blank",
+                    "noopener,noreferrer",
+                  )
+                }
+                variant="secondary"
+                size="lg"
+              >
+                <FileText className="mr-2 h-4 w-4" />
+                Ver CV
+              </Button>
+            </div>
+
+            <div className="mt-14 grid gap-4 border-y border-[var(--color-border-soft)] py-6 sm:grid-cols-3">
+              {heroIndicators.map((indicator) => (
+                <div key={indicator.label}>
+                  <p className="text-3xl font-bold text-[var(--color-text-primary)]">{indicator.value}</p>
+                  <p className="mt-1 text-sm text-[var(--color-text-muted)]">{indicator.label}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="relative lg:justify-self-end">
+            <div className="relative aspect-[4/5] w-full max-w-[440px] overflow-hidden rounded-[var(--radius-card)] border border-[var(--color-border-soft)] media-fallback p-6 shadow-[0_24px_80px_rgba(28,24,20,0.10)]">
+              <div className="relative flex h-full flex-col justify-between rounded-md border border-white/70 bg-white/55 p-6 backdrop-blur-sm">
+                <div className="flex items-center justify-between">
+                  <span className="grid h-14 w-14 place-items-center rounded-full bg-[var(--color-brand-primary)] text-lg font-bold text-white">
+                    FA
+                  </span>
+                  <Pill variant="brand">
+                    Product Design
+                  </Pill>
+                </div>
+
+                <div className="space-y-4">
+                  {heroProcess.map((label, index) => (
+                    <div key={label} className="flex items-center gap-3">
+                      <span className="grid h-8 w-8 place-items-center rounded-full bg-[var(--color-brand-primary)] text-xs font-bold text-white">
+                        {index + 1}
+                      </span>
+                      <div className="h-3 flex-1 rounded-full bg-[var(--color-border-soft)]" />
+                      <span className="w-24 text-sm font-bold text-[var(--color-brand-primary)]">{label}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <p className="max-w-[260px] text-2xl font-bold leading-tight text-[var(--color-text-primary)]">
+                  Decidir qué vale la pena llevar a pantalla.
+                </p>
+              </div>
+            </div>
+            <div className="absolute -bottom-6 left-5 max-w-[280px] rounded-[var(--radius-card)] bg-[var(--color-dark)] p-5 text-white shadow-[var(--shadow-card-hover)]">
+              <p className="text-lg font-semibold leading-7">
+                Claridad, usabilidad y valor para productos que necesitan avanzar.
+              </p>
+            </div>
           </div>
         </div>
       </div>

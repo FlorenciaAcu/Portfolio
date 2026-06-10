@@ -1,116 +1,108 @@
-import { Heart } from "lucide-react";
+import { cvUrl } from "../data/home";
+
+const footerLinks = [
+  { label: "Inicio", target: "inicio" },
+  { label: "Sobre mí", target: "sobre-mi" },
+  { label: "Proyectos", route: "/proyectos" },
+  { label: "Artículos", target: "articulos" },
+  { label: "Contacto", target: "contacto" },
+];
+
+function goTo(target: string) {
+  const isProjectsPage = window.location.hash.startsWith("#/proyectos") || window.location.pathname.startsWith("/proyectos");
+
+  if (isProjectsPage) {
+    window.location.hash = "#/";
+    setTimeout(() => document.getElementById(target)?.scrollIntoView({ behavior: "smooth" }), 120);
+    return;
+  }
+
+  if (target === "inicio") {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    return;
+  }
+
+  document.getElementById(target)?.scrollIntoView({ behavior: "smooth" });
+}
 
 export function Footer() {
   return (
-    <footer className="bg-gray-900 text-white py-12">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="grid md:grid-cols-3 gap-8">
-          {/* Brand */}
-          <div className="space-y-4">
-            <h3 className="text-xl font-semibold">Florencia Acuña</h3>
-            <p className="text-gray-400 leading-relaxed">
-             Diseñadora de productos digitales, apasionada por la innovación, la educación y el emprendedurismo.
+    <footer className="bg-[var(--color-dark)] py-12 text-white">
+      <div className="mx-auto max-w-7xl px-6">
+        <div className="grid gap-10 md:grid-cols-[1.2fr_1fr_1fr]">
+          <div>
+            <div className="mb-4 flex items-center gap-3">
+              <span className="grid h-10 w-10 place-items-center rounded-full bg-[var(--color-brand-soft)] text-sm font-bold text-[var(--color-brand-primary)]">
+                FA
+              </span>
+              <div>
+                <p className="font-bold">Florencia Acuña</p>
+                <p className="text-sm text-[var(--color-dark-muted)]">Product Designer</p>
+              </div>
+            </div>
+            <p className="max-w-sm leading-7 text-[var(--color-dark-muted)]">
+              Product Designer enfocada en productos claros, usables y alineados a equipos.
             </p>
           </div>
 
-          {/* Quick Links */}
-          <div className="space-y-4">
-            <h4 className="font-semibold">Enlaces Rápidos</h4>
-            <ul className="space-y-2 text-gray-400">
-              <li>
-                <button 
+          <nav aria-label="Navegación del footer">
+            <h3 className="mb-4 font-bold">Navegación</h3>
+            <div className="grid gap-2 text-[var(--color-dark-muted)]">
+              {footerLinks.map((link) => (
+                <button
+                  key={link.label}
                   onClick={() => {
-                    const isProjectsPage = window.location.hash === '#/proyectos' || window.location.pathname === '/proyectos';
-                    if (isProjectsPage) {
-                      window.location.hash = '#/';
-                    } else {
-                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    if (link.route === "/proyectos") {
+                      window.location.hash = "#/proyectos";
+                      setTimeout(() => window.scrollTo(0, 0), 100);
+                    } else if (link.target) {
+                      goTo(link.target);
                     }
                   }}
-                  className="hover:text-white transition-colors text-left"
+                  className="focus-ring w-fit rounded-sm text-left transition hover:text-[var(--color-brand-soft)]"
                 >
-                  Inicio
+                  {link.label}
                 </button>
-              </li>
-              <li>
-                <button 
-                  onClick={() => {
-                    const isProjectsPage = window.location.hash === '#/proyectos' || window.location.pathname === '/proyectos';
-                    if (isProjectsPage) {
-                      window.location.hash = '#/';
-                      setTimeout(() => {
-                        const element = document.getElementById('sobre-mi');
-                        if (element) {
-                          element.scrollIntoView({ behavior: 'smooth' });
-                        }
-                      }, 100);
-                    } else {
-                      const element = document.getElementById('sobre-mi');
-                      if (element) {
-                        element.scrollIntoView({ behavior: 'smooth' });
-                      }
-                    }
-                  }}
-                  className="hover:text-white transition-colors text-left"
-                >
-                  Sobre mí
-                </button>
-              </li>
-              <li>
-                <button 
-                  onClick={() => {
-                    window.location.hash = '#/proyectos';
-                    setTimeout(() => window.scrollTo(0, 0), 100);
-                  }}
-                  className="hover:text-white transition-colors text-left"
-                >
-                  Proyectos
-                </button>
-              </li>
-              <li>
-                <button 
-                  onClick={() => {
-                    const isProjectsPage = window.location.hash === '#/proyectos' || window.location.pathname === '/proyectos';
-                    if (isProjectsPage) {
-                      window.location.hash = '#/';
-                      setTimeout(() => {
-                        const element = document.getElementById('contacto');
-                        if (element) {
-                          element.scrollIntoView({ behavior: 'smooth' });
-                        }
-                      }, 100);
-                    } else {
-                      const element = document.getElementById('contacto');
-                      if (element) {
-                        element.scrollIntoView({ behavior: 'smooth' });
-                      }
-                    }
-                  }}
-                  className="hover:text-white transition-colors text-left"
-                >
-                  Contacto
-                </button>
-              </li>
-            </ul>
-          </div>
+              ))}
+            </div>
+          </nav>
 
-          {/* Contact */}
-          <div className="space-y-4">
-            <h4 className="font-semibold">Contacto</h4>
-            <div className="space-y-2 text-gray-400">
-              <p>contact@florenciaux.com</p>
-              <p>San Juan, Argentina</p>
+          <div>
+            <h3 className="mb-4 font-bold">Contacto</h3>
+            <div className="grid gap-2 text-[var(--color-dark-muted)]">
+              <a className="focus-ring w-fit rounded-sm transition hover:text-[var(--color-brand-soft)]" href="mailto:contact@florenciaux.com">
+                contact@florenciaux.com
+              </a>
+              <a
+                className="focus-ring w-fit rounded-sm transition hover:text-[var(--color-brand-soft)]"
+                href="https://www.linkedin.com/in/florencia-acuna-ux/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                LinkedIn
+              </a>
+              <a
+                className="focus-ring w-fit rounded-sm transition hover:text-[var(--color-brand-soft)]"
+                href="https://medium.com/@florencia.acuna"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Medium
+              </a>
+              <a
+                className="focus-ring w-fit rounded-sm transition hover:text-[var(--color-brand-soft)]"
+                href={cvUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                CV
+              </a>
             </div>
           </div>
         </div>
 
-        <div className="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-gray-400 text-sm">
-            © 2025 Florencia Acuña. Todos los derechos reservados.
-          </p>
-          <p className="text-gray-400 text-sm flex items-center gap-1 mt-4 md:mt-0">
-            Hecho con <Heart className="w-4 h-4 text-red-500" /> y mucho tecito.
-          </p>
+        <div className="mt-10 border-t border-white/10 pt-6 text-sm text-white/55">
+          © 2026 Florencia Acuña. Todos los derechos reservados.
         </div>
       </div>
     </footer>

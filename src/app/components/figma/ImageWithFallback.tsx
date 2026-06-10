@@ -1,8 +1,4 @@
-import image_ef4a39d7a268607b60410299d7ef2ca5d805a2dd from 'figma:asset/ef4a39d7a268607b60410299d7ef2ca5d805a2dd.png';
 import React, { useState } from 'react'
-
-const ERROR_IMG_SRC =
-  image_ef4a39d7a268607b60410299d7ef2ca5d805a2dd
 
 export function ImageWithFallback(props: React.ImgHTMLAttributes<HTMLImageElement>) {
   const [didError, setDidError] = useState(false)
@@ -19,7 +15,7 @@ export function ImageWithFallback(props: React.ImgHTMLAttributes<HTMLImageElemen
       style={style}
     >
       <div className="flex items-center justify-center w-full h-full">
-        <img src={ERROR_IMG_SRC} alt="Error loading image" {...rest} data-original-url={src} />
+        <span className="px-4 text-sm font-medium text-gray-500">{alt || "Imagen no disponible"}</span>
       </div>
     </div>
   ) : (

@@ -1,16 +1,37 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
-
 @custom-variant dark (&:is(.dark *));
 
 :root {
   --font-size: 16px;
+  --color-brand-primary: #351C75;
+  --color-brand-hover: #2b165f;
+  --color-brand-soft: #EEE5FF;
+  --color-brand-border: #D8C8FF;
+  --color-text-primary: #151515;
+  --color-text-secondary: #4f463f;
+  --color-text-muted: #7a7067;
+  --color-text-soft: #9c9691;
+  --color-bg: #ffffff;
+  --color-bg-soft: #fbfaf7;
+  --color-bg-warm: #f4efe8;
+  --color-border-soft: #e5e0d8;
+  --color-success: #2d8f5f;
+  --color-dark: #151515;
+  --color-dark-muted: #d8d0c8;
+  --radius-card: 0.75rem;
+  --radius-button: 999px;
+  --radius-chip: 999px;
+  --shadow-card: 0 1px 2px rgba(25, 22, 18, 0.04);
+  --shadow-card-hover: 0 18px 48px rgba(25, 22, 18, 0.08);
+  --transition-fast: 180ms ease;
+  --transition-base: 240ms ease;
+  --transition-reveal: 420ms ease-out;
   --background: #ffffff;
-  --foreground: oklch(0.145 0 0);
+  --foreground: var(--color-text-primary);
   --card: #ffffff;
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: #030213;
+  --primary: var(--color-dark);
   --primary-foreground: oklch(1 0 0);
   --secondary: oklch(0.95 0.0058 264.53);
   --secondary-foreground: #030213;
@@ -20,19 +41,19 @@
   --accent-foreground: #030213;
   --destructive: #d4183d;
   --destructive-foreground: #ffffff;
-  --border: rgba(0, 0, 0, 0.1);
+  --border: var(--color-border-soft);
   --input: transparent;
   --input-background: #f3f3f5;
   --switch-background: #cbced4;
   --font-weight-medium: 500;
   --font-weight-normal: 400;
-  --ring: oklch(0.708 0 0);
+  --ring: var(--color-brand-primary);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
-  --radius: 0.625rem;
+  --radius: 0.75rem;
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
   --sidebar-primary: #030213;
@@ -129,6 +150,7 @@
   body {
     @apply bg-background text-foreground;
     font-family: 'DM Sans', sans-serif;
+    color: var(--color-text-primary);
   }
 }
 
@@ -189,4 +211,67 @@
 
 html {
   font-size: var(--font-size);
+}
+
+.section-reveal {
+  animation: section-fade-up var(--transition-reveal) both;
+}
+
+.interactive-card {
+  transition:
+    transform var(--transition-base),
+    box-shadow var(--transition-base),
+    border-color var(--transition-base),
+    background-color var(--transition-base);
+}
+
+.interactive-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card-hover);
+}
+
+.focus-ring {
+  outline: none;
+}
+
+.focus-ring:focus-visible {
+  box-shadow: 0 0 0 3px rgba(53, 28, 117, 0.22);
+}
+
+.media-fallback {
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.82) 0%, rgba(244, 239, 232, 0.92) 48%, rgba(229, 224, 216, 0.82) 100%);
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+@keyframes section-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .section-reveal,
+  .interactive-card {
+    animation: none;
+    transition: none;
+  }
+
+  * {
+    scroll-behavior: auto !important;
+  }
+
+  .interactive-card:hover {
+    transform: none;
+    box-shadow: none;
+  }
 }
