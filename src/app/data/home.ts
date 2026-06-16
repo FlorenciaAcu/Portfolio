@@ -7,8 +7,6 @@ export const heroIndicators = [
   { value: "Delivery", label: "soluciones listas para avanzar a desarrollo" },
 ];
 
-export const heroProcess = ["Entender", "Ordenar", "Diseñar", "Avanzar"];
-
 export const focusAreas = [
   {
     title: "Ordenar",

@@ -1,6 +1,8 @@
+import { motion, useReducedMotion } from "motion/react";
 import { ArrowRight, ExternalLink } from "lucide-react";
 import { projects, type Project } from "../data/projects";
 import { Chip, MediaBlock, SurfaceCard } from "./design-system";
+import { revealItem, staggerContainer } from "./design-system/motionVariants";
 import { Button } from "./ui/button";
 
 function ProjectCard({ project }: { project: Project }) {
@@ -31,22 +33,24 @@ function ProjectCard({ project }: { project: Project }) {
             <Button
               variant="secondary"
               size="sm"
+              className="cta-group"
               onClick={() => {
                 window.location.hash = `#/proyectos/${project.id}`;
                 setTimeout(() => window.scrollTo(0, 0), 100);
               }}
             >
               {project.cta}
-              <ArrowRight className="ml-2 h-3.5 w-3.5" />
+              <ArrowRight className="cta-arrow ml-2 h-3.5 w-3.5" />
             </Button>
           ) : externalLink ? (
             <Button
               variant="secondary"
               size="sm"
+              className="cta-group"
               onClick={() => window.open(externalLink, "_blank", "noopener,noreferrer")}
             >
               {project.cta}
-              <ExternalLink className="ml-2 h-3.5 w-3.5" />
+              <ExternalLink className="cta-arrow ml-2 h-3.5 w-3.5" />
             </Button>
           ) : (
             <span className="inline-flex rounded-[var(--radius-button)] border border-[var(--color-border-soft)] bg-white px-4 py-2 text-sm font-semibold text-[var(--color-brand-primary)]">
@@ -60,11 +64,21 @@ function ProjectCard({ project }: { project: Project }) {
 }
 
 export function ProjectGrid({ items = projects }: { items?: Project[] }) {
+  const shouldReduceMotion = useReducedMotion();
+
   return (
-    <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+    <motion.div
+      variants={shouldReduceMotion ? undefined : staggerContainer}
+      initial={shouldReduceMotion ? undefined : "hidden"}
+      whileInView={shouldReduceMotion ? undefined : "visible"}
+      viewport={{ once: true, amount: 0.18 }}
+      className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
+    >
       {items.map((project) => (
-        <ProjectCard key={project.id} project={project} />
+        <motion.div key={project.id} variants={shouldReduceMotion ? undefined : revealItem}>
+          <ProjectCard project={project} />
+        </motion.div>
       ))}
-    </div>
+    </motion.div>
   );
 }

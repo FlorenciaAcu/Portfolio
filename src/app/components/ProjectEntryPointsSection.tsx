@@ -1,24 +1,32 @@
+import { motion, useReducedMotion } from "motion/react";
 import { ArrowRight } from "lucide-react";
 import { featuredProjects } from "../data/projects";
 import { Section, SurfaceCard } from "./design-system";
+import { revealItem, staggerContainer } from "./design-system/motionVariants";
 
 export function ProjectEntryPointsSection() {
+  const shouldReduceMotion = useReducedMotion();
+
   return (
     <Section tone="white" className="py-12 lg:py-16">
       <div className="grid gap-4 lg:grid-cols-[0.7fr_1.3fr] lg:items-start">
         <div>
-          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--color-brand-primary)]">
-            Por dónde empezar
-          </p>
-          <h2 className="mt-3 max-w-md text-3xl font-bold leading-tight text-[var(--color-text-primary)]">
+          <h2 className="max-w-md text-3xl font-bold leading-tight text-[var(--color-text-primary)]">
             Tres formas de ver cómo pienso producto.
           </h2>
         </div>
 
-        <div className="grid gap-3 md:grid-cols-3">
+        <motion.div
+          variants={shouldReduceMotion ? undefined : staggerContainer}
+          initial={shouldReduceMotion ? undefined : "hidden"}
+          whileInView={shouldReduceMotion ? undefined : "visible"}
+          viewport={{ once: true, amount: 0.18 }}
+          className="grid gap-3 md:grid-cols-3"
+        >
           {featuredProjects.map((project) => (
-            <button
+            <motion.button
               key={project.id}
+              variants={shouldReduceMotion ? undefined : revealItem}
               onClick={() => {
                 window.location.hash = `#/proyectos/${project.id}`;
                 setTimeout(() => window.scrollTo(0, 0), 100);
@@ -32,14 +40,14 @@ export function ProjectEntryPointsSection() {
                     {project.impactTitle}
                   </h3>
                 </div>
-                <span className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[var(--color-brand-primary)]">
+                <span className="cta-group mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[var(--color-brand-primary)]">
                   Ver caso
-                  <ArrowRight className="h-4 w-4" />
+                  <ArrowRight className="cta-arrow h-4 w-4" />
                 </span>
               </SurfaceCard>
-            </button>
+            </motion.button>
           ))}
-        </div>
+        </motion.div>
       </div>
     </Section>
   );

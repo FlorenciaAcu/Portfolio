@@ -1,6 +1,8 @@
+import { motion, useReducedMotion } from "motion/react";
 import { ArrowRight } from "lucide-react";
 import { type Project } from "../data/projects";
 import { Chip, MediaBlock, SurfaceCard } from "./design-system";
+import { revealItem, staggerContainer } from "./design-system/motionVariants";
 import { Button } from "./ui/button";
 
 function goToProject(projectId: string) {
@@ -16,31 +18,41 @@ export function ProjectVisualGrid({
   compact?: boolean;
 }) {
   const images = project.images?.items || [];
+  const shouldReduceMotion = useReducedMotion();
 
   return (
-    <div className={compact ? "grid gap-3" : "grid min-h-[440px] gap-3 md:grid-cols-[1.15fr_0.85fr]"}>
-      <MediaBlock
-        src={project.images?.hero}
-        alt={`${project.title}: imagen principal del proyecto`}
-        title={project.title}
-        eyebrow={project.productType}
-        className={compact ? "min-h-[230px]" : "min-h-[320px] md:min-h-full"}
-      />
+    <motion.div
+      variants={shouldReduceMotion ? undefined : staggerContainer}
+      initial={shouldReduceMotion ? undefined : "hidden"}
+      whileInView={shouldReduceMotion ? undefined : "visible"}
+      viewport={{ once: true, amount: 0.18 }}
+      className={compact ? "grid gap-3" : "grid min-h-[440px] gap-3 md:grid-cols-[1.15fr_0.85fr]"}
+    >
+      <motion.div variants={shouldReduceMotion ? undefined : revealItem}>
+        <MediaBlock
+          src={project.images?.hero}
+          alt={`${project.title}: imagen principal del proyecto`}
+          title={project.title}
+          eyebrow={project.productType}
+          className={compact ? "min-h-[230px]" : "min-h-[320px] md:min-h-full"}
+        />
+      </motion.div>
 
       {!compact ? (
         <div className="grid gap-3">
           {[0, 1, 2].map((index) => (
-            <MediaBlock
-              key={`${project.id}-visual-${index}`}
-              src={images[index]}
-              alt={`${project.title}: visual ${index + 1}`}
-              title={index === 0 ? project.industry : index === 1 ? project.productType : "Flujos y decisiones"}
-              className="min-h-[132px]"
-            />
+            <motion.div key={`${project.id}-visual-${index}`} variants={shouldReduceMotion ? undefined : revealItem}>
+              <MediaBlock
+                src={images[index]}
+                alt={`${project.title}: visual ${index + 1}`}
+                title={index === 0 ? project.industry : index === 1 ? project.productType : "Flujos y decisiones"}
+                className="min-h-[132px]"
+              />
+            </motion.div>
           ))}
         </div>
       ) : null}
-    </div>
+    </motion.div>
   );
 }
 
@@ -106,9 +118,9 @@ function ProjectSheetContent({ project, size = "default" }: { project: Project; 
         ))}
       </div>
 
-      <Button variant="secondary" className="mt-7" onClick={() => goToProject(project.id)}>
+      <Button variant="secondary" className="cta-group mt-7" onClick={() => goToProject(project.id)}>
         Ver caso
-        <ArrowRight className="ml-2 h-4 w-4" />
+        <ArrowRight className="cta-arrow ml-2 h-4 w-4" />
       </Button>
     </div>
   );

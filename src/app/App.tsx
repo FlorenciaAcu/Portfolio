@@ -7,8 +7,10 @@ import { FeaturedProjects } from "./components/FeaturedProjects";
 import { WritingSection } from "./components/WritingSection";
 import { ContactSection } from "./components/ContactSection";
 import { Footer } from "./components/Footer";
+import { WhatsAppFab } from "./components/WhatsAppFab";
 import { ProyectosPage } from "./components/ProyectosPage";
 import { ProjectDetailPage } from "./components/ProjectDetailPage";
+import { RevealSection } from "./components/design-system/RevealSection";
 import { useState, useEffect } from "react";
 
 export default function App() {
@@ -94,15 +96,30 @@ export default function App() {
     <div className="min-h-screen bg-white">
       <Header />
       <main>
-        <HeroSection />
-        <ProjectEntryPointsSection />
-        <TrustSignalsSection />
-        <ValueSection />
-        <FeaturedProjects />
-        <WritingSection />
-        <ContactSection />
+        <RevealSection y={14}>
+          <HeroSection />
+        </RevealSection>
+        <RevealSection delay={0.04}>
+          <ProjectEntryPointsSection />
+        </RevealSection>
+        <RevealSection delay={0.06}>
+          <TrustSignalsSection />
+        </RevealSection>
+        <RevealSection delay={0.06}>
+          <ValueSection />
+        </RevealSection>
+        <RevealSection delay={0.06}>
+          <FeaturedProjects />
+        </RevealSection>
+        <RevealSection delay={0.06}>
+          <WritingSection />
+        </RevealSection>
+        <RevealSection delay={0.06}>
+          <ContactSection />
+        </RevealSection>
       </main>
       <Footer />
+      <WhatsAppFab />
       
       {/* Debug navigation for Figma Make */}
       {/*

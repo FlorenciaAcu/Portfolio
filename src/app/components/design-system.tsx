@@ -21,7 +21,7 @@ export function Section({
   };
 
   return (
-    <section id={id} className={cn("section-reveal py-20 lg:py-28", tones[tone], className)}>
+    <section id={id} className={cn("py-20 lg:py-28", tones[tone], className)}>
       <div className="mx-auto max-w-7xl px-6">{children}</div>
     </section>
   );
@@ -34,7 +34,7 @@ export function SectionHeader({
   invert = false,
   className,
 }: {
-  eyebrow: string;
+  eyebrow?: string;
   title: string;
   description?: string;
   invert?: boolean;
@@ -43,14 +43,16 @@ export function SectionHeader({
   return (
     <div className={cn("mb-12 grid gap-5 lg:grid-cols-[0.9fr_1.1fr] lg:items-end", className)}>
       <div>
-        <p
-          className={cn(
-            "mb-3 text-sm font-semibold uppercase tracking-[0.18em]",
-            invert ? "text-[var(--color-brand-soft)]" : "text-[var(--color-brand-primary)]",
-          )}
-        >
-          {eyebrow}
-        </p>
+        {eyebrow ? (
+          <p
+            className={cn(
+              "mb-3 text-sm font-semibold uppercase tracking-[0.18em]",
+              invert ? "text-[var(--color-brand-soft)]" : "text-[var(--color-brand-primary)]",
+            )}
+          >
+            {eyebrow}
+          </p>
+        ) : null}
         <h2
           className={cn(
             "text-balance text-3xl font-bold leading-tight md:text-5xl",
@@ -101,7 +103,7 @@ export function Pill({
         className,
       )}
     >
-      {dot ? <span className="h-2 w-2 rounded-full bg-[var(--color-success)]" /> : null}
+      {dot ? <span className="availability-dot h-2 w-2 rounded-full bg-[var(--color-success)] text-[var(--color-success)]" /> : null}
       {children}
     </span>
   );

@@ -59,9 +59,8 @@ export function Header() {
           <span className="grid h-10 w-10 place-items-center rounded-full bg-[var(--color-brand-primary)] text-sm font-bold text-white">
             FA
           </span>
-          <span className="hidden leading-tight sm:block">
+          <span className="hidden sm:block">
             <span className="block font-bold text-[var(--color-text-primary)]">Florencia Acuña</span>
-            <span className="block text-sm text-[var(--color-text-muted)]">florenciaux</span>
           </span>
         </button>
 
@@ -80,7 +79,7 @@ export function Header() {
         <div className="hidden md:block">
           <Button
             onClick={() => goToSection("contacto")}
-            variant="brand"
+            variant="primary"
           >
             Contacto
           </Button>
@@ -113,7 +112,7 @@ export function Header() {
                 goToSection("contacto");
                 setIsMobileMenuOpen(false);
               }}
-              variant="brand"
+              variant="primary"
               className="mt-3"
             >
               Contacto

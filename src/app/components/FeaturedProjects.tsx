@@ -12,7 +12,6 @@ export function FeaturedProjects() {
   return (
     <Section id="proyectos" tone="white">
       <SectionHeader
-        eyebrow="Proyectos"
         title="Proyectos destacados"
         description="Láminas editoriales de proyectos donde el trabajo no fue solo diseñar pantallas, sino ordenar decisiones, flujos y criterios para que el producto pudiera avanzar."
       />
@@ -29,13 +28,14 @@ export function FeaturedProjects() {
         <Button
           variant="brand"
           size="lg"
+          className="cta-group"
           onClick={() => {
             window.location.hash = "#/proyectos";
             setTimeout(() => window.scrollTo(0, 0), 100);
           }}
         >
           Ver todos los proyectos
-          <ArrowRight className="ml-2 h-4 w-4" />
+          <ArrowRight className="cta-arrow ml-2 h-4 w-4" />
         </Button>
       </div>
     </Section>

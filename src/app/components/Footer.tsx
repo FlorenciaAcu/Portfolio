@@ -1,108 +1,64 @@
 import { cvUrl } from "../data/home";
+import { Heart } from "lucide-react";
 
 const footerLinks = [
-  { label: "Inicio", target: "inicio" },
-  { label: "Sobre mí", target: "sobre-mi" },
-  { label: "Proyectos", route: "/proyectos" },
-  { label: "Artículos", target: "articulos" },
-  { label: "Contacto", target: "contacto" },
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/in/florencia-acuna-ux/",
+  },
+  {
+    label: "Medium",
+    href: "https://medium.com/@florencia.acuna",
+  },
+  {
+    label: "CV",
+    href: cvUrl,
+  },
 ];
-
-function goTo(target: string) {
-  const isProjectsPage = window.location.hash.startsWith("#/proyectos") || window.location.pathname.startsWith("/proyectos");
-
-  if (isProjectsPage) {
-    window.location.hash = "#/";
-    setTimeout(() => document.getElementById(target)?.scrollIntoView({ behavior: "smooth" }), 120);
-    return;
-  }
-
-  if (target === "inicio") {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    return;
-  }
-
-  document.getElementById(target)?.scrollIntoView({ behavior: "smooth" });
-}
 
 export function Footer() {
   return (
-    <footer className="bg-[var(--color-dark)] py-12 text-white">
+    <footer className="bg-[var(--color-dark)] py-10 text-white">
       <div className="mx-auto max-w-7xl px-6">
-        <div className="grid gap-10 md:grid-cols-[1.2fr_1fr_1fr]">
+        <div className="flex flex-col gap-8 border-t border-white/10 pt-8 md:flex-row md:items-end md:justify-between">
           <div>
-            <div className="mb-4 flex items-center gap-3">
-              <span className="grid h-10 w-10 place-items-center rounded-full bg-[var(--color-brand-soft)] text-sm font-bold text-[var(--color-brand-primary)]">
-                FA
-              </span>
-              <div>
-                <p className="font-bold">Florencia Acuña</p>
-                <p className="text-sm text-[var(--color-dark-muted)]">Product Designer</p>
-              </div>
-            </div>
-            <p className="max-w-sm leading-7 text-[var(--color-dark-muted)]">
-              Product Designer enfocada en productos claros, usables y alineados a equipos.
+            <p className="text-lg font-bold">Florencia Acuña</p>
+            <p className="mt-2 max-w-md leading-7 text-[var(--color-dark-muted)]">
+              Product Designer. Diseño productos digitales claros para equipos que necesitan ordenar,
+              decidir y avanzar.
             </p>
           </div>
 
-          <nav aria-label="Navegación del footer">
-            <h3 className="mb-4 font-bold">Navegación</h3>
-            <div className="grid gap-2 text-[var(--color-dark-muted)]">
+          <div className="flex flex-col gap-4 md:items-end">
+            <a
+              className="focus-ring w-fit rounded-sm font-semibold text-white transition hover:text-[var(--color-brand-soft)]"
+              href="mailto:contact@florenciaux.com"
+            >
+              contact@florenciaux.com
+            </a>
+            <div className="flex flex-wrap gap-x-5 gap-y-2 text-sm text-[var(--color-dark-muted)]">
               {footerLinks.map((link) => (
-                <button
+                <a
                   key={link.label}
-                  onClick={() => {
-                    if (link.route === "/proyectos") {
-                      window.location.hash = "#/proyectos";
-                      setTimeout(() => window.scrollTo(0, 0), 100);
-                    } else if (link.target) {
-                      goTo(link.target);
-                    }
-                  }}
-                  className="focus-ring w-fit rounded-sm text-left transition hover:text-[var(--color-brand-soft)]"
+                  className="focus-ring rounded-sm transition hover:text-[var(--color-brand-soft)]"
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   {link.label}
-                </button>
+                </a>
               ))}
-            </div>
-          </nav>
-
-          <div>
-            <h3 className="mb-4 font-bold">Contacto</h3>
-            <div className="grid gap-2 text-[var(--color-dark-muted)]">
-              <a className="focus-ring w-fit rounded-sm transition hover:text-[var(--color-brand-soft)]" href="mailto:contact@florenciaux.com">
-                contact@florenciaux.com
-              </a>
-              <a
-                className="focus-ring w-fit rounded-sm transition hover:text-[var(--color-brand-soft)]"
-                href="https://www.linkedin.com/in/florencia-acuna-ux/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                LinkedIn
-              </a>
-              <a
-                className="focus-ring w-fit rounded-sm transition hover:text-[var(--color-brand-soft)]"
-                href="https://medium.com/@florencia.acuna"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Medium
-              </a>
-              <a
-                className="focus-ring w-fit rounded-sm transition hover:text-[var(--color-brand-soft)]"
-                href={cvUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                CV
-              </a>
             </div>
           </div>
         </div>
 
-        <div className="mt-10 border-t border-white/10 pt-6 text-sm text-white/55">
-          © 2026 Florencia Acuña. Todos los derechos reservados.
+        <div className="mt-8 flex flex-col gap-3 border-t border-white/10 pt-5 text-sm text-white/45 sm:flex-row sm:items-center sm:justify-between">
+          <p>© 2026 Florencia Acuña.</p>
+          <p className="flex items-center gap-1.5">
+            Hecho con
+            <Heart className="h-3.5 w-3.5 fill-red-500 text-red-500" aria-hidden="true" />
+            y mucho tecito.
+          </p>
         </div>
       </div>
     </footer>
