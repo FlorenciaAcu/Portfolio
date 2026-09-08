@@ -1,115 +1,104 @@
-import { Heart } from "lucide-react";
+import { IsologoFA } from "./IsologoFA";
 
 export function Footer() {
+  const currentYear = new Date().getFullYear();
+
+  const go = (hash: string) => {
+    window.location.hash = hash;
+  };
+
   return (
-    <footer className="bg-gray-900 text-white py-12">
+    <footer className="bg-white border-t border-gray-100 py-16">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
           {/* Brand */}
-          <div className="space-y-4">
-            <h3 className="text-xl font-semibold">Florencia Acuña</h3>
-            <p className="text-gray-400 leading-relaxed">
-             Diseñadora de productos digitales, apasionada por la innovación, la educación y el emprendedurismo.
-            </p>
+          <div className="space-y-3">
+            <div className="flex items-center gap-2.5">
+              <IsologoFA size={28} />
+              <p className="font-semibold text-gray-900">Florencia Acuña</p>
+            </div>
+            <p className="text-sm text-gray-500">Product Designer · San Juan, Argentina</p>
           </div>
 
-          {/* Quick Links */}
-          <div className="space-y-4">
-            <h4 className="font-semibold">Enlaces Rápidos</h4>
-            <ul className="space-y-2 text-gray-400">
-              <li>
-                <button 
-                  onClick={() => {
-                    const isProjectsPage = window.location.hash === '#/proyectos' || window.location.pathname === '/proyectos';
-                    if (isProjectsPage) {
-                      window.location.hash = '#/';
-                    } else {
-                      window.scrollTo({ top: 0, behavior: 'smooth' });
-                    }
-                  }}
-                  className="hover:text-white transition-colors text-left"
-                >
-                  Inicio
-                </button>
-              </li>
-              <li>
-                <button 
-                  onClick={() => {
-                    const isProjectsPage = window.location.hash === '#/proyectos' || window.location.pathname === '/proyectos';
-                    if (isProjectsPage) {
-                      window.location.hash = '#/';
-                      setTimeout(() => {
-                        const element = document.getElementById('sobre-mi');
-                        if (element) {
-                          element.scrollIntoView({ behavior: 'smooth' });
-                        }
-                      }, 100);
-                    } else {
-                      const element = document.getElementById('sobre-mi');
-                      if (element) {
-                        element.scrollIntoView({ behavior: 'smooth' });
-                      }
-                    }
-                  }}
-                  className="hover:text-white transition-colors text-left"
-                >
-                  Sobre mí
-                </button>
-              </li>
-              <li>
-                <button 
-                  onClick={() => {
-                    window.location.hash = '#/proyectos';
-                    setTimeout(() => window.scrollTo(0, 0), 100);
-                  }}
-                  className="hover:text-white transition-colors text-left"
-                >
-                  Proyectos
-                </button>
-              </li>
-              <li>
-                <button 
-                  onClick={() => {
-                    const isProjectsPage = window.location.hash === '#/proyectos' || window.location.pathname === '/proyectos';
-                    if (isProjectsPage) {
-                      window.location.hash = '#/';
-                      setTimeout(() => {
-                        const element = document.getElementById('contacto');
-                        if (element) {
-                          element.scrollIntoView({ behavior: 'smooth' });
-                        }
-                      }, 100);
-                    } else {
-                      const element = document.getElementById('contacto');
-                      if (element) {
-                        element.scrollIntoView({ behavior: 'smooth' });
-                      }
-                    }
-                  }}
-                  className="hover:text-white transition-colors text-left"
-                >
-                  Contacto
-                </button>
-              </li>
+          {/* Nav */}
+          <div className="space-y-3">
+            <p className="text-xs font-semibold tracking-widest text-gray-600 uppercase mb-4">
+              Navegación
+            </p>
+            <ul className="space-y-2">
+              {[
+                { label: "Inicio", action: () => go("#/") },
+                { label: "Sobre mí", action: () => go("#/sobre-mi") },
+                { label: "Proyectos", action: () => go("#/proyectos") },
+                { label: "Experiencia", action: () => go("#/experiencia") },
+                { label: "Contacto", action: () => { window.location.href = "mailto:contact@florenciaux.com"; } },
+              ].map((item) => (
+                <li key={item.label}>
+                  <button
+                    onClick={item.action}
+                    className="text-sm text-gray-500 hover:text-gray-900 transition-colors text-left"
+                  >
+                    {item.label}
+                  </button>
+                </li>
+              ))}
             </ul>
           </div>
 
-          {/* Contact */}
-          <div className="space-y-4">
-            <h4 className="font-semibold">Contacto</h4>
-            <div className="space-y-2 text-gray-400">
-              <p>contact@florenciaux.com</p>
-              <p>San Juan, Argentina</p>
-            </div>
+          {/* Links */}
+          <div className="space-y-3">
+            <p className="text-xs font-semibold tracking-widest text-gray-600 uppercase mb-4">
+              Contacto
+            </p>
+            <ul className="space-y-2">
+              <li>
+                <a
+                  href="mailto:contact@florenciaux.com"
+                  className="text-sm text-gray-500 hover:text-gray-900 transition-colors"
+                >
+                  contact@florenciaux.com
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://www.linkedin.com/in/florencia-acuna-ux/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-gray-500 hover:text-gray-900 transition-colors"
+                >
+                  LinkedIn
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://medium.com/@florenciaacuna"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-gray-500 hover:text-gray-900 transition-colors"
+                >
+                  Medium
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://docs.google.com/document/d/1O70FGTcqo2q0tnwgErOQUlcODUc8LEDuZI0w3G4l9do/edit?usp=sharing"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-gray-500 hover:text-gray-900 transition-colors"
+                >
+                  CV
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
 
-        <div className="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-gray-400 text-sm">
-            © 2025 Florencia Acuña. Todos los derechos reservados.
+        <div className="border-t border-gray-100 pt-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <p className="text-xs text-gray-600">
+            © {currentYear} Florencia Acuña. Todos los derechos reservados.
           </p>
-          <p className="text-gray-400 text-sm flex items-center gap-1 mt-4 md:mt-0">
-            Hecho con <Heart className="w-4 h-4 text-red-500" /> y mucho tecito.
+          <p className="text-xs text-gray-600">
+            Hecho con ❤️ y mucho tecito.
           </p>
         </div>
       </div>

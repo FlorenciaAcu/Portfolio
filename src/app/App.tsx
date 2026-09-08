@@ -1,116 +1,129 @@
 import { Header } from "./components/Header";
 import { HeroSection } from "./components/HeroSection";
 import { AboutSection } from "./components/AboutSection";
+import { ThinkingSection } from "./components/ThinkingSection";
+import { ValueSection } from "./components/ValueSection";
 import { FeaturedProjects } from "./components/FeaturedProjects";
-import { ContactSection } from "./components/ContactSection";
+import { ExperienceSection } from "./components/ExperienceSection";
+import { KnowledgeSection } from "./components/KnowledgeSection";
 import { Footer } from "./components/Footer";
 import { ProyectosPage } from "./components/ProyectosPage";
+import { ExperiencePage } from "./components/ExperiencePage";
+import { CaseStudyPage } from "./components/CaseStudyPage";
+import { GlobalImagePreloader } from "./components/GlobalImagePreloader";
+import { WhatsAppFAB } from "./components/WhatsAppFAB";
+import { SEOHead } from "./components/SEOHead";
 import { useState, useEffect } from "react";
 
-export default function App() {
-  const [currentPath, setCurrentPath] = useState(() => {
-    // Initialize with hash-based routing for production compatibility
-    if (typeof window !== 'undefined') {
-      const hash = window.location.hash;
-      if (hash === '#/proyectos') {
-        return '/proyectos';
-      }
-      // Also check pathname for direct access attempts
-      if (window.location.pathname === '/proyectos') {
-        return '/proyectos';
-      }
-    }
-    return '/';
-  });
+// Mapping from URL slug to DOM element ID
+const SECTION_MAP: Record<string, string> = {
+  "sobre-mi": "sobre-mi",
+  "proyectos": "proyectos",
+  "servicios": "servicios",
+  "experiencia": "experiencia",
+  "contacto": "contacto",
+};
 
-  useEffect(() => {
-    // Handle hash-based routing (works in all environments)
-    const handleHashChange = () => {
-      const hash = window.location.hash;
-      if (hash === '#/proyectos') {
-        setCurrentPath('/proyectos');
-      } else if (hash === '#/' || hash === '') {
-        setCurrentPath('/');
-      }
-    };
+interface Route {
+  page: string;
+  slug?: string;
+  section?: string;
+}
 
-    // Handle back/forward browser navigation
-    const handlePopState = () => {
-      const hash = window.location.hash;
-      if (hash === '#/proyectos') {
-        setCurrentPath('/proyectos');
-      } else {
-        setCurrentPath('/');
-      }
-    };
+function parseHash(): Route {
+  const hash = window.location.hash.replace("#", "") || "/";
 
-    // Listen for both hash changes and browser navigation
-    window.addEventListener('hashchange', handleHashChange);
-    window.addEventListener('popstate', handlePopState);
-    
-    // Check for hash on initial load
-    handleHashChange();
+  if (hash.startsWith("/caso/")) {
+    return { page: "/caso/:slug", slug: hash.replace("/caso/", "") };
+  }
+  if (hash.startsWith("/proyectos/")) {
+    return { page: "/proyectos/:slug", slug: hash.replace("/proyectos/", "") };
+  }
+  if (hash === "/trayectoria") return { page: "/trayectoria" };
 
-    return () => {
-      window.removeEventListener('hashchange', handleHashChange);
-      window.removeEventListener('popstate', handlePopState);
-    };
-  }, []);
-
-  // Make navigation function available globally for easy testing
-  useEffect(() => {
-    (window as any).navigateTo = (path: string) => {
-      setCurrentPath(path);
-      if (path === '/proyectos') {
-        window.location.hash = '#/proyectos';
-      } else {
-        window.location.hash = '#/';
-      }
-    };
-  }, []);
-
-  // Simple routing
-  if (currentPath === '/proyectos') {
-    return <ProyectosPage />;
+  // Section URLs — render home page and scroll to section
+  const sectionSlug = hash.replace("/", "");
+  if (sectionSlug in SECTION_MAP) {
+    return { page: "/", section: sectionSlug };
   }
 
-  // Homepage
+  return { page: "/" };
+}
+
+export default function App() {
+  const [route, setRoute] = useState<Route>(() => parseHash());
+
+  useEffect(() => {
+    const handleChange = () => setRoute(parseHash());
+    window.addEventListener("hashchange", handleChange);
+    window.addEventListener("popstate", handleChange);
+    return () => {
+      window.removeEventListener("hashchange", handleChange);
+      window.removeEventListener("popstate", handleChange);
+    };
+  }, []);
+
+  // Scroll to section when navigating to a section URL
+  useEffect(() => {
+    if (route.page === "/" && route.section) {
+      const domId = SECTION_MAP[route.section] || route.section;
+      const timer = setTimeout(() => {
+        const el = document.getElementById(domId);
+        if (el) el.scrollIntoView({ behavior: "smooth" });
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [route]);
+
+  if (route.page === "/caso/:slug" && route.slug) {
+    return (
+      <>
+        <SEOHead />
+        <GlobalImagePreloader />
+        <CaseStudyPage slug={route.slug} />
+      </>
+    );
+  }
+
+  if (route.page === "/proyectos/:slug" && route.slug) {
+    return (
+      <>
+        <SEOHead />
+        <GlobalImagePreloader />
+        <ExperiencePage slug={route.slug} />
+      </>
+    );
+  }
+
+  if (route.page === "/trayectoria") {
+    return (
+      <>
+        <SEOHead
+          title="Trayectoria — Florencia Acuña, Product Designer"
+          description="Experiencia profesional y proyectos de Florencia Acuña: consultoría en productos digitales, Cintelink y Folcode."
+        />
+        <GlobalImagePreloader />
+        <ProyectosPage />
+      </>
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white font-['DM_Sans',sans-serif]">
+      <SEOHead />
+      <GlobalImagePreloader />
       <Header />
+      <WhatsAppFAB />
       <main>
-        <section id="inicio">
-          <HeroSection />
-        </section>
-        <section id="sobre-mi">
-          <AboutSection />
-        </section>
-        <section id="proyectos">
-          <FeaturedProjects />
-        </section>
-        <section id="contacto">
-          <ContactSection />
-        </section>
+        <HeroSection />
+        <AboutSection />
+        <FeaturedProjects />
+        <ThinkingSection />
+        <ExperienceSection />
+        {/* <KnowledgeSection /> */}
+        <ValueSection />
       </main>
       <Footer />
-      
-      {/* Debug navigation for Figma Make */}
-      {/*
-      <div className="fixed bottom-4 right-4 z-50 flex gap-2 opacity-20 hover:opacity-100 transition-opacity">
-        <button
-          onClick={() => window.location.hash = '#/'}
-          className="bg-black text-white px-3 py-1 rounded text-xs"
-        >
-          Inicio
-        </button>
-        <button
-          onClick={() => window.location.hash = '#/proyectos'}
-          className="bg-blue-600 text-white px-3 py-1 rounded text-xs"
-        >
-          Proyectos
-        </button>
-      </div>
-      */}
     </div>
   );
 }

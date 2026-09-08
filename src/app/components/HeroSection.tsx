@@ -1,82 +1,112 @@
-import imgMyProject from "figma:asset/823c5b31891be9a71126acd119cd38e45ab6f017.png";
-import imgImageWithFallback from "figma:asset/8742f9788708f83d6bce8496683dacf97e5abf30.png";
-import img1005Cazadoresdeorog102 from "figma:asset/e413d17e385338800e6adbb995a23b583d9d76a9.png";
+import { motion } from "motion/react";
 
-function Heading1() {
-  return (
-    <div className="flex flex-col items-start w-full" data-name="Heading 1">
-      <h1 className="font-['DM_Sans:Bold',_sans-serif] font-bold leading-tight text-[#101828] text-4xl lg:text-5xl xl:text-6xl w-full" style={{ fontVariationSettings: "'opsz' 14" }}>
-        Hola, soy<br />Florencia Acuña
-      </h1>
-    </div>
-  );
-}
-
-function Paragraph() {
-  return (
-    <div className="flex flex-col gap-4 items-start w-full" data-name="Container">
-      <p className="font-['DM_Sans:9pt_Regular',_sans-serif] font-normal leading-relaxed text-[#4a5565] text-xl lg:text-2xl" style={{ fontVariationSettings: "'opsz' 9" }}>
-        UX/UI Designer
-      </p>
-      <p className="font-['DM_Sans:9pt_Regular',_sans-serif] font-normal leading-relaxed text-[#4a5565] text-lg" style={{ fontVariationSettings: "'opsz' 9" }}>
-        Diseñadora de productos digitales, apasionada por la innovación, la educación y el emprendedurismo.
-      </p>
-    </div>
-  );
-}
-
-function ImageWithFallback() {
-  return (
-    <div className="[grid-area:1_/_1] h-[274.701px] ml-0 mt-0 relative rounded-[16px] w-[265.347px]" data-name="ImageWithFallback">
-      <img alt="" className="absolute inset-0 max-w-none object-50%-50% object-cover pointer-events-none rounded-[16px] size-full" src={imgImageWithFallback} />
-    </div>
-  );
-}
-
-function Container3() {
-  return <div className="[grid-area:1_/_1] bg-[#467eff] h-[59.181px] ml-[421px] mt-[28.604px] opacity-20 rounded-[1.06861e+07px] w-[60px]" data-name="Container" />;
-}
-
-function Container4() {
-  return <div className="[grid-area:1_/_1] bg-[#5433f6] h-[49.318px] ml-[26px] mt-[315.61px] opacity-20 rounded-[1.06861e+07px] w-[50px]" data-name="Container" />;
-}
-
-function Container2() {
-  return (
-    <div className="flex flex-col gap-8 items-start w-full" data-name="Container">
-      <div className="relative rounded-full w-20 h-20 lg:w-24 lg:h-24" data-name="My project">
-        <img alt="Florencia Acuña" className="absolute inset-0 object-cover rounded-full w-full h-full" src={imgMyProject} />
-      </div>
-      <div className="flex flex-col gap-6 w-full">
-        <Heading1 />
-        <Paragraph />
-      </div>
-    </div>
-  );
-}
-
-function Group1() {
-  return (
-    <div className="grid-cols-[max-content] grid-rows-[max-content] h-full inline-grid leading-[0] place-items-start relative shrink-0">
-      <ImageWithFallback />
-      <div className="[grid-area:1_/_1] h-[281.001px] ml-[287px] mt-[115px] relative rounded-[16px] w-[265.347px]" data-name="1005cazadoresdeorog1-02">
-        <img alt="" className="absolute inset-0 max-w-none object-50%-50% object-cover pointer-events-none rounded-[16px] size-full" src={img1005Cazadoresdeorog102} />
-      </div>
-      <Container3 />
-      <Container4 />
-    </div>
-  );
-}
+const metrics = [
+  { value: "+5", label: "años de experiencia" },
+  { value: "+15", label: "proyectos digitales" },
+  { value: "+6", label: "industrias" },
+];
 
 export function HeroSection() {
+  const handleVerProyectos = () => {
+    const el = document.getElementById("proyectos");
+    if (el) el.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
-    <section id="inicio" className="min-h-screen flex items-center justify-center bg-white py-40">
-      <div className="max-w-7xl mx-auto px-6 w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center min-h-[80vh]" data-name="HeroSection">
-          <Container2 />
-          <div className="flex justify-center items-center">
-            <Group1 />
-          </div>
+    <section
+      id="inicio"
+      className="relative min-h-screen flex items-center pt-20 bg-white overflow-hidden"
+    >
+      <div className="w-full max-w-7xl mx-auto px-6 py-16 lg:py-24">
+        <div className="flex flex-col gap-8 max-w-3xl">
+
+          {/* Badge */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <span className="inline-flex items-center gap-2 text-sm font-medium text-gray-600 bg-[#F5F5F7] rounded-full px-4 py-2">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
+              </span>
+              Disponible para proyectos
+            </span>
+          </motion.div>
+
+          {/* H1 */}
+          <motion.h1
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.65, delay: 0.15 }}
+            className="text-5xl sm:text-6xl lg:text-7xl font-bold text-gray-900 leading-[1.05] tracking-tight"
+          >
+            Diseño productos digitales{" "}
+            <span className="relative inline-block">
+              que funcionan.
+              <motion.span
+                className="absolute -bottom-1 left-0 h-[3px] bg-[#351C75] rounded-full block"
+                initial={{ scaleX: 0 }}
+                animate={{ scaleX: 1 }}
+                transition={{ duration: 0.7, delay: 0.95, ease: "easeOut" }}
+                style={{ transformOrigin: "left", width: "100%" }}
+              />
+            </span>
+          </motion.h1>
+
+          {/* Subtitle */}
+          <motion.p
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, delay: 0.35 }}
+            className="text-gray-500 text-lg leading-relaxed"
+          >
+            Diseño productos digitales e incorporo IA en distintas etapas del proceso para explorar alternativas, prototipar y validar soluciones de forma más ágil.
+          </motion.p>
+
+          {/* CTAs */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+            className="flex flex-wrap gap-4"
+          >
+            <button
+              onClick={handleVerProyectos}
+              className="inline-flex items-center gap-2 bg-[#351C75] text-white px-7 py-3.5 rounded-full text-sm font-semibold hover:bg-[#2a1660] hover:shadow-[0_4px_20px_rgba(53,28,117,0.35)] hover:-translate-y-0.5 transition-all duration-200"
+            >
+              Ver proyectos
+            </button>
+            <a
+              href="https://docs.google.com/document/d/1O70FGTcqo2q0tnwgErOQUlcODUc8LEDuZI0w3G4l9do/edit?usp=sharing"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 border border-gray-300 bg-white text-gray-800 px-7 py-3.5 rounded-full text-sm font-semibold hover:border-[#C4B5E8] hover:bg-[#F3F0FA] transition-colors duration-200"
+            >
+              Ver CV
+            </a>
+          </motion.div>
+
+          {/* Metrics */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.75 }}
+            className="flex flex-wrap items-center gap-x-6 gap-y-3"
+          >
+            {metrics.map((m, i) => (
+              <>
+                {i > 0 && (
+                  <span key={`dot-${i}`} className="text-gray-300 select-none hidden sm:inline">·</span>
+                )}
+                <span key={m.value} className="text-sm text-gray-500">
+                  <span className="font-bold text-gray-900">{m.value}</span>{" "}{m.label}
+                </span>
+              </>
+            ))}
+          </motion.div>
+
         </div>
       </div>
     </section>
